@@ -20,19 +20,15 @@ if %errorlevel% neq 0 (
     echo Miniconda is already installed.
 )
 
-:: Kiểm tra lại conda đã hoạt động chưa
-where conda >nul 2>nul
-if %errorlevel% neq 0 (
-    echo Error: Conda installation failed.
-    exit /b 1
-)
+:: Load Conda vào CMD (đặc biệt quan trọng trên Windows)
+call "%USERPROFILE%\miniconda3\Scripts\activate.bat"
 
 :: Cập nhật Conda
 echo Updating Conda...
 conda update -n base -c defaults conda -y
 
-:: Tạo môi trường Python 3.10 nếu chưa có
-conda info --envs | findstr /C:"mttn" >nul
+:: Kiểm tra xem môi trường "mttn" đã tồn tại chưa bằng lệnh chính xác hơn
+conda env list | findstr /R "\bmttn\b" >nul
 if %errorlevel% neq 0 (
     echo Creating new Conda environment 'mttn' with Python 3.10...
     conda create -n mttn python=3.10 -y
