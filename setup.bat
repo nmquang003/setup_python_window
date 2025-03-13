@@ -16,12 +16,11 @@ if %errorlevel% neq 0 (
     
     :: Load lại biến môi trường
     set PATH=%USERPROFILE%\miniconda3\Scripts;%USERPROFILE%\miniconda3\Library\bin;%PATH%
+    :: Load Conda vào CMD (đặc biệt quan trọng trên Windows)
+    call "%USERPROFILE%\miniconda3\Scripts\activate.bat"
 ) else (
     echo Miniconda is already installed.
 )
-
-:: Load Conda vào CMD (đặc biệt quan trọng trên Windows)
-call "%USERPROFILE%\miniconda3\Scripts\activate.bat"
 
 :: Cập nhật Conda
 echo Updating Conda...
