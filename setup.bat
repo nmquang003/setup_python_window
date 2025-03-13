@@ -1,58 +1,52 @@
 @echo off
 setlocal enabledelayedexpansion
 
-:: Kiểm tra Python đã cài chưa
-where python >nul 2>nul
-if %errorlevel% equ 0 (
-    echo Python found. Checking version...
+:: Kiểm tra Miniconda đã cài chưa
+where conda >nul 2>nul
+if %errorlevel% neq 0 (
+    echo Miniconda not found. Downloading and installing...
     
-    :: Lấy phiên bản Python
-    for /f "delims=" %%V in ('python -c "import sys; print(sys.version[:5])"') do set PYTHON_VERSION=%%V
+    :: Tải Miniconda installer
+    powershell -Command "& {[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; Invoke-WebRequest -Uri 'https://repo.anaconda.com/miniconda/Miniconda3-latest-Windows-x86_64.exe' -OutFile 'MinicondaInstaller.exe'}"
     
-    echo Detected Python version: %PYTHON_VERSION%
+    :: Cài đặt Miniconda (yên lặng, tự động thêm vào PATH)
+    start /wait MinicondaInstaller.exe /InstallationType=JustMe /AddToPath=1 /RegisterPython=0 /S
+    del MinicondaInstaller.exe
+    echo Miniconda installed successfully.
     
-    :: Nếu không phải Python 3.10, gỡ cài đặt
-    if not "%PYTHON_VERSION%"=="3.10." (
-        echo Removing existing Python version...
-        powershell -Command "Get-Package -Name *Python* | Uninstall-Package -Force"
-    ) else (
-        echo Python 3.10 is already installed.
-        goto CREATE_ENV
-    )
+    :: Load lại biến môi trường
+    set PATH=%USERPROFILE%\miniconda3\Scripts;%USERPROFILE%\miniconda3\Library\bin;%PATH%
 ) else (
-    echo No Python installation found.
+    echo Miniconda is already installed.
 )
 
-:: Cài đặt Python 3.10
-echo Downloading and installing Python 3.10...
-powershell -Command "& {[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; Invoke-WebRequest -Uri 'https://www.python.org/ftp/python/3.10.11/python-3.10.11-amd64.exe' -OutFile 'python_installer.exe'}"
-start /wait python_installer.exe /quiet InstallAllUsers=1 PrependPath=1 Include_test=0
-del python_installer.exe
-echo Python 3.10 installed successfully.
-
-:: Cập nhật đường dẫn
-set PYTHON_310_PATH=C:\Python310\python.exe
-set PATH=C:\Python310\Scripts\;C:\Python310\;%PATH%
-
-:: Kiểm tra cài đặt thành công chưa
-if not exist "%PYTHON_310_PATH%" (
-    echo Error: Python 3.10 installation failed.
+:: Kiểm tra lại conda đã hoạt động chưa
+where conda >nul 2>nul
+if %errorlevel% neq 0 (
+    echo Error: Conda installation failed.
     exit /b 1
 )
 
-:CREATE_ENV
-echo Installing pip...
-"%PYTHON_310_PATH%" -m ensurepip --default-pip
-"%PYTHON_310_PATH%" -m pip install --upgrade pip
+:: Cập nhật Conda
+echo Updating Conda...
+conda update -n base -c defaults conda -y
 
-echo Creating virtual environment 'mttn'...
-"%PYTHON_310_PATH%" -m venv mttn
+:: Tạo môi trường Python 3.10 nếu chưa có
+conda info --envs | findstr /C:"mttn" >nul
+if %errorlevel% neq 0 (
+    echo Creating new Conda environment 'mttn' with Python 3.10...
+    conda create -n mttn python=3.10 -y
+) else (
+    echo Conda environment 'mttn' already exists.
+)
 
-:: Kích hoạt môi trường ảo
-call mttn\Scripts\activate
+:: Kích hoạt môi trường
+echo Activating environment 'mttn'...
+call conda activate mttn
 
+:: Cài đặt thư viện học máy
 echo Installing machine learning libraries...
-pip install numpy pandas matplotlib scikit-learn torch torchvision torchaudio tensorflow notebook
+conda install numpy pandas matplotlib scikit-learn pytorch torchvision torchaudio cpuonly tensorflow -c pytorch -c conda-forge -y
 
 echo Setup complete! To activate the environment, use:
-echo call mttn\Scripts\activate
+echo conda activate mttn
