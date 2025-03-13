@@ -19,7 +19,7 @@ python -m pip install --upgrade pip
 
 :: Cài đặt thư viện bằng pip
 echo Installing machine learning libraries...
-@REM pip install numpy pandas matplotlib scikit-learn torch torchvision torchaudio tensorflow
+pip install numpy pandas matplotlib scikit-learn torch torchvision torchaudio tensorflow notebook
 
 if %errorlevel% neq 0 (
     echo Error installing libraries. Continuing.
