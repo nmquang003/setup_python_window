@@ -5,6 +5,9 @@ setlocal enabledelayedexpansion
 set ENV_NAME=mttn
 set CONDA_INSTALL_PATH=%USERPROFILE%\miniconda3
 
+:: Cập nhật PATH tạm thời
+set PATH=%CONDA_INSTALL_PATH%\Scripts;%CONDA_INSTALL_PATH%\Library\bin;%PATH%
+
 :: Kích hoạt môi trường
 echo Activating environment '%ENV_NAME%'...
 call conda activate %ENV_NAME%
