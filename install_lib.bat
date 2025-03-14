@@ -3,10 +3,6 @@ setlocal enabledelayedexpansion
 
 :: Đặt tên môi trường
 set ENV_NAME=mttn
-set CONDA_INSTALL_PATH=%USERPROFILE%\miniconda3
-
-:: Cập nhật PATH tạm thời
-set PATH=%CONDA_INSTALL_PATH%\Scripts;%CONDA_INSTALL_PATH%\Library\bin;%PATH%
 
 :: Kiểm tra xem môi trường đã tồn tại chưa
 conda env list | findstr /C:"%ENV_NAME%" >nul

@@ -18,7 +18,7 @@ if %errorlevel% neq 0 echo Error installing Miniconda. Exiting. & exit /b 1
 set PATH=%CONDA_INSTALL_PATH%\Scripts;%CONDA_INSTALL_PATH%\Library\bin;%PATH%
 
 :: Initialize conda
-call conda init
+call conda init cmd.exe
 
 :: Xóa file cài đặt
 del MinicondaInstaller.exe
