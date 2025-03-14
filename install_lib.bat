@@ -15,7 +15,6 @@ if %errorlevel% neq 0 echo Creating new Conda environment '%ENV_NAME%' with Pyth
 
 :: Kích hoạt môi trường
 echo Activating environment '%ENV_NAME%'...
-call conda init
 call conda activate %ENV_NAME%
 
 :: Cập nhật pip trước khi cài đặt
