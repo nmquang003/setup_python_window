@@ -1,7 +1,10 @@
 # setup_python_window
 setup python environment for ML on window
 
-Open cmd with Administrator mode and run this command: ```setup.bat & install_lib.bat```
+Open cmd with Administrator mode and run this command: 
+```
+setup.bat & start cmd /k install_lib.bat
+```
 
 Or if you have not cloned this repo yet, you can run:
 ```
