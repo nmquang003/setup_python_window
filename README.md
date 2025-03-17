@@ -12,5 +12,10 @@ powershell -Command "& {Invoke-WebRequest -Uri 'https://github.com/nmquang003/se
 powershell -Command "& {Expand-Archive -Path 'setup_python_window.zip' -DestinationPath '.' -Force}" & ^
 cd setup_python_window-main & ^
 setup.bat & ^
-start cmd /k install_lib.bat
+start cmd /k "install_lib.bat & conda run -n base python check_env_lib.py"
+```
+
+Check the environment use:
+```
+conda run -n base python check_env_lib.py
 ```

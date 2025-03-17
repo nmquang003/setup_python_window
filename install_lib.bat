@@ -21,5 +21,5 @@ python -m pip install --upgrade pip
 echo Installing machine learning libraries...
 pip install numpy pandas matplotlib scikit-learn torch torchvision torchaudio tensorflow notebook
 
-echo Setup complete! To activate the environment, use:
+echo Setup complete. To activate the environment, use:
 echo conda activate %ENV_NAME%
