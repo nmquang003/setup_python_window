@@ -10,14 +10,14 @@ def get_desktop_path():
     return buf.value
 
 desktop_path = get_desktop_path()  # Lấy đường dẫn Desktop thật sự
-root_folder = os.path.join(desktop_path, "dataset")
+root_folder = os.path.join(desktop_path, "Datasets")
 
 
 # Định nghĩa danh sách thư mục và link (link là Google Drive folder)
 mp = {
     "ML": "https://drive.google.com/drive/folders/1IYbwt4j2243SQB5f3Jc9obcHC_PmimGj",
-    "CV": "https://drive.google.com/drive/folders/1nwE30ptIsIteGC5BkwX7PwuldxKc1Yyq",
-    "NLP": "https://drive.google.com/drive/folders/1IYbwt4j2243SQB5f3Jc9obcHC_PmimGj",
+    "CV": "https://drive.google.com/drive/folders/1SK4GwKcXTCmAM5Pp7hy8GuUmsLMeiDoY",
+    "NLP": "https://drive.google.com/drive/folders/1GhwEsRp2YvoAgxOET_hJPBOh2G_14k4f",
 }
 
 # Tạo thư mục gốc nếu chưa tồn tại
